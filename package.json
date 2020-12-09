@@ -19,5 +19,8 @@
   },
   "devDependencies": {
     "webpack-cli": "^4.2.0"
+  },
+  "scripts": {
+    "start": "node app.js"
   }
 }
