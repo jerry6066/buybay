@@ -24,3 +24,11 @@ $("#LogInButton").click(function (event) {
     event.preventDefault();
   }
 });
+
+$("#CodeButton").click(function (event) {
+  var code = $('#Code').val();
+  if (code.length == 0) {
+    alert("Invalid code!");
+    event.preventDefault();
+  }
+})

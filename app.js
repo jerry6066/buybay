@@ -1,10 +1,11 @@
 //jshint esversion:6
-
+const request = require('request')
 const express = require("express");
 const bodyParser = require("body-parser");
 var cookieParser = require('cookie-parser');
 const dotenv = require('dotenv').config();
 // var AWS = require('aws-sdk/global');
+var ejs = require('ejs');
 
 var AmazonCognitoIdentity = require('amazon-cognito-identity-js');
 
@@ -64,7 +65,7 @@ app.get('/', function(req, res) {
     var isLoggedIn = checkLogIn(userName, tokens);
 
     if (isLoggedIn) {
-      res.render('display');
+      res.redirect('/display');
     } else {
       res.sendFile('index.html', {root: __dirname})
     }
@@ -174,7 +175,20 @@ app.get('/display', function(req, res) {
     var isLoggedIn = checkLogIn(userName, tokens);
 
     if (isLoggedIn) {
-      res.render('display');
+      url = process.env.SearchItemURL;
+      request(url, function(error, response, body) {
+        // console.error('error:', error); // Print the error if one occurred
+        // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+        // console.log('body:', body); // Print the HTML for the Google homepage.
+        body = JSON.parse(body)
+        var page = body['page'];
+        var items = body['Items'];
+        res.render('display',{
+          page: page,
+          Items:items
+        });
+      });
+
     } else {
       res.redirect('/');
     }
@@ -192,8 +206,47 @@ app.get('/logout', function(req, res) {
   res.redirect('/');
 });
 
+app.get('/item/:itemID', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      var itemID = req.params.itemID;
+      url = process.env.ItemDetailURL + itemID;
+      request(url, function(error, response, body) {
+        body = JSON.parse(body);
+        var status = body['status'];
+        if (status) {
+          var item = body['item'];
+          res.render('item',{
+            item: item
+          });
+        } else {
+          // Todo: No Item Found
+          // render to error page
+        }
+
+      });
+
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+
+});
+
+
+
+//Invalid Route
+app.get('*', function (req, res) {
+    res.sendFile('error.html', {root: __dirname});
+});
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {
-  console.log("Server started on port 3000");
+  console.log("Server started.");
 });

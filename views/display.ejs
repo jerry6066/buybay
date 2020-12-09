@@ -1,10 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Main</title>
-  </head>
-  <body>
-    <h1>This is the main webpage.</h1>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <title>Main</title>
+</head>
+
+<body>
+  <h1>This is the main webpage.</h1>
+  <h2>Page: <%= page %> </h2>
+  <hr>
+
+  <% Items.forEach(function(item){ %>
+  <div>
+    <p>Item Name: <%= item.item_name %> </p>
+    <p>User Name: <%= item.user_name %> </p>
+    <p>Post Time: <%= item.post_time %> </p>
+    <p>Price: <%= item.price %> </p>
+    <img src="<%= item.img_url %>">
+    <p>num_visits: <%= item.num_visits %> </p>
+  </div>
+  <hr />
+  <% }) %>
+
+</body>
+
 </html>
