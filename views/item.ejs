@@ -5,40 +5,75 @@
   <meta charset="utf-8">
   <title><%= item.item_name %></title>
 
-  <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="css/item.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Andika+New+Basic:wght@700&family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+  <script src="https://kit.fontawesome.com/231fbd9d95.js" crossorigin="anonymous"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/item.css">
 </head>
 
 <body>
-  <h1>This is the item page.</h1>
-  <p>Item Name: <%= item.item_name %></p>
-  <hr>
-  <img src="<%= item.main_image_url %>" alt="">
-  <p><%= item.item_name %></p>
-  <p><%= item.post_time %></p>
-  <p><%= item.user_name %></p>
-  <p><%= item.status %></p>
-  <p><%= item.num_visits %></p>
-  <p><%= item.price %></p>
+  <div class="header">
+
+  </div>
+
+  <div class="item-top">
+    <div class="top-left">
+      <img class="main_img" src="<%= item.main_image_url %>" alt="">
+    </div>
+    <div class="top-right">
+      <div class="top-block">
+        <h1 class="item-name"><%= item.item_name %></h1>
+      </div>
+      <div class="top-block">
+        <p class="time-and-name"><%= item.user_name %> / <%= item.post_time %></p>
+      </div>
+      <div class="top-right-left">
+        <p class="status-and-visited-num"><%= item.status %></p>
+        <p class="status-and-visited-num"><i class="far fa-eye"></i> <%= item.num_visits %></p>
+      </div>
+      <div class="top-right-right">
+        <a class="btn btn-outline-primary want-btn" href="#" role="button">I WANT</a>
+        <p>$ <%= item.price %></p>
+      </div>
+    </div>
+  </div>
 
   <hr>
 
-  <p><%= item.description %></p>
+  <div class="description-block">
+    <h2>Description</h2>
+    <p class="description-content"><%= item.description %></p>
 
+    <div class="item-images">
+      <% item.img_urls.forEach(function(url) { %>
+      <img class="item-image" src="<%= url %>" alt="">
+      <% }) %>
+    </div>
+    <p class="end-of-description">End of description</p>
+  </div>
 
-  <% item.img_urls.forEach(function(url) { %>
-  <img src="<%= url %>" alt="">
-  <% }) %>
 
   <hr>
 
-  <% item.messages.forEach(function(msg) { %>
-  <p><%= msg.content %></p>
-  <p><%= msg.user_name %></p>
-  <p><%= msg.post_time %></p>
-  <% }) %>
+  <div class="messages-block">
+    <h2>Comments</h2>
+    <% item.messages.forEach(function(msg) { %>
+    <div class="message">
+      <p class="message-content"><%= msg.content %></p>
+      <p class="message-time"><%= msg.user_name %> / <%= msg.post_time %></p>
+    </div>
+    <% }) %>
+    <p class="end-of-comment">End of comments</p>
+  </div>
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </body>
