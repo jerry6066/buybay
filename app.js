@@ -177,15 +177,15 @@ app.get('/display', function(req, res) {
     if (isLoggedIn) {
       url = process.env.SearchItemURL;
       request(url, function(error, response, body) {
-        // console.error('error:', error); // Print the error if one occurred
-        // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-        // console.log('body:', body); // Print the HTML for the Google homepage.
+        // console.error('error:', error);  Print the error if one occurred
+        // console.log('statusCode:', response && response.statusCode);  Print the response status code if a response was received
+        // console.log('body:', body);  Print the HTML for the Google homepage.
         body = JSON.parse(body)
         var page = body['page'];
         var items = body['Items'];
-        res.render('display',{
+        res.render('display', {
           page: page,
-          Items:items
+          Items: items
         });
       });
 
@@ -219,9 +219,8 @@ app.get('/item/:itemID', function(req, res) {
         var status = body['status'];
         if (status) {
           var item = body['item'];
-          res.render('item',{
-            item: item
-          });
+          res.cookie('itemID', itemID);
+          res.render('item', {item: item});
         } else {
           // Todo: No Item Found
           // render to error page
@@ -238,13 +237,33 @@ app.get('/item/:itemID', function(req, res) {
 
 });
 
+app.post('/writeComment', function(req, res) {
+  const userName = req.cookies['username'];
+  const content = req.body.comment;
+  const itemID = req.cookies['itemID'];
 
+
+  var options = {
+    uri: process.env.WriteCommentURL,
+    method: 'POST',
+    json: {
+      "item_id": itemID,
+      "user_id": userName,
+      "content": content
+    }
+  };
+
+  request(options, function(error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.redirect('/item/'+itemID);
+    }
+  });
+})
 
 //Invalid Route
-app.get('*', function (req, res) {
-    res.sendFile('error.html', {root: __dirname});
+app.get('*', function(req, res) {
+  res.sendFile('error.html', {root: __dirname});
 });
-
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, function() {

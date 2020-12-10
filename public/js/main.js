@@ -1,5 +1,4 @@
-
-$("#SignUpButton").click(function (event) {
+$("#SignUpButton").click(function(event) {
   var email = $('#SignUpEmail').val();
   var pwd = $('#SignUpPassword').val();
 
@@ -12,7 +11,7 @@ $("#SignUpButton").click(function (event) {
   }
 });
 
-$("#LogInButton").click(function (event) {
+$("#LogInButton").click(function(event) {
   var email = $('#LogInEmail').val();
   var pwd = $('#LogInPassword').val();
 
@@ -25,10 +24,19 @@ $("#LogInButton").click(function (event) {
   }
 });
 
-$("#CodeButton").click(function (event) {
+$("#CodeButton").click(function(event) {
   var code = $('#Code').val();
   if (code.length == 0) {
     alert("Invalid code!");
     event.preventDefault();
   }
+});
+
+$(".comment-btn").click(function(event) {
+  var content = $('.comment-text').val()
+  if (content.length === 0) {
+    alert("Please enter some comment.");
+    event.preventDefault();
+  }
+
 })

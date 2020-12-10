@@ -182,3 +182,21 @@ hr {
   text-align: center;
   color:#52616b;
 }
+
+.comment-text {
+  background-color: #e4f9f5;
+  resize:none;
+  width: 700px;
+  position: relative;
+  left: 50%;
+  margin-left: -350px;
+  border-radius: 20px;
+}
+
+.comment-btn {
+  margin-top: 20px;
+  width: 200px;
+  position: relative;
+  left: 50%;
+  margin-left: -100px;
+}

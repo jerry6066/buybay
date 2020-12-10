@@ -71,11 +71,16 @@
       <p class="message-time"><%= msg.user_name %> / <%= msg.post_time %></p>
     </div>
     <% }) %>
+    <form class="" action="/writeComment" method="post">
+      <textarea name="comment" class="form-control comment-text" placeholder="Add new comment. The max length is 200 characters." rows="3" maxlength="200"></textarea>
+      <button class="btn btn-outline-primary comment-btn" type="submit">Write New Comment</button>
+    </form>
     <p class="end-of-comment">End of comments</p>
   </div>
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 
 </html>
