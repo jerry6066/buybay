@@ -50,7 +50,10 @@
 
   <div class="description-block">
     <h2>Description</h2>
-    <p class="description-content"><%= item.description %></p>
+    <% item.description.forEach(function(des) { %>
+      <p class="description-content"><%= des %></p>
+    <% }) %>
+
 
     <div class="item-images">
       <% item.img_urls.forEach(function(url) { %>

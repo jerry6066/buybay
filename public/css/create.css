@@ -1,0 +1,170 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.header {
+  height: 60px;
+  width: 100%;
+  background-color: #08d9d6;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.item-top {
+  border-radius: 20px;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  width: 800px;
+  position: relative;
+  left: 50%;
+  margin-left: -400px;
+  background-color: #a6e3e9;
+}
+
+.top-left {
+  display: inline-block;
+  width: 300px;
+  margin: 50px;
+  vertical-align: top;
+}
+
+.main_img {
+  width: 300px;
+  height:300px;
+  border-radius: 20px;
+}
+
+.top-right {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 50px;
+  margin-left: 25px;
+  width: 300px;
+  height: 300px;
+}
+
+
+.item-name {
+  font-size: 2rem;
+  font-family: 'Andika New Basic', sans-serif;
+}
+
+.item-name-input {
+  border-radius:20px;
+  background-color: #e4f9f5;
+}
+
+.top-right-block {
+  margin-bottom: 40px;
+}
+
+.item-price {
+  font-family: 'Roboto', sans-serif;
+  font-size:4rem;
+  text-align: right;
+}
+
+.item-price-input {
+  border-radius:20px;
+  background-color: #e4f9f5;
+}
+
+hr {
+  width: 1000px;
+  position: relative;
+  left: 50%;
+  margin-left: -500px;
+  margin-top:10px;
+}
+
+.description-block {
+  width: 800px;
+  margin-top: 30px;
+  margin-bottom:30px;
+  position: relative;
+  left: 50%;
+  margin-left: -400px;
+  background-color: #a6e3e9;
+  border-radius: 20px;
+}
+
+.description-block h2 {
+  text-align: center;
+  margin: 30px;
+  padding-top:15px;
+  font-size: 3rem;
+  font-family: 'Andika New Basic', sans-serif;
+}
+
+.end-of-description {
+  padding: 10px 0;
+  font-family: 'Roboto', sans-serif;
+  font-size:0.8rem;
+  text-align: center;
+  color:#52616b;
+}
+
+.description-text {
+  background-color: #e4f9f5;
+  resize:none;
+  width: 650px;
+  position: relative;
+  left: 50%;
+  margin-bottom:20px;
+  margin-left: -350px;
+  border-radius: 20px;
+  overflow: hidden;
+  height:100px;
+  min-height: 100px;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.item-images {
+  margin: 40px 0 0 0;
+}
+
+.item-image {
+  width:350px;
+  height:350px;
+  border-radius: 20px;
+}
+
+.save-btn, .add-para-btn, .add-img-btn{
+  margin-top: 20px;
+  width: 200px;
+  position: relative;
+  left: 50%;
+  margin-left: -100px;
+}
+
+.add-img-btn {
+  display: block;
+}
+
+.paragraph {
+  position: relative;
+  left: 50%;
+  width: 720px;
+  margin-left: -365px;
+}
+
+.delete-para-btn {
+  float: right;
+}
+
+.delete-img-btn {
+  margin-top: 10px;
+  display: block;
+  float:center;
+  position: relative;
+  left: 50%;
+  width: 50px;
+  margin-left:-25px;
+}
+
+.img-container {
+  margin: 23px;
+  width: 350px;
+}

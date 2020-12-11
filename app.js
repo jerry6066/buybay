@@ -260,6 +260,60 @@ app.post('/writeComment', function(req, res) {
   });
 })
 
+
+app.get('/create', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      res.render('createItem');
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
+
+app.get('/edit-item/:itemID', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      var itemID = req.params.itemID;
+      url = process.env.ItemDetailURL + itemID;
+      request(url, function(error, response, body) {
+        body = JSON.parse(body);
+        var status = body['status'];
+        if (status) {
+          var item = body['item'];
+          if (item['user_id'] === userName) {
+            console.log(item);
+            // res.cookie('itemID', itemID);
+            res.render('editItem', {item: item});
+          } else {
+            res.send("No Auth.")
+          }
+
+
+        } else {
+          // Todo: No Item Found
+          // render to error page
+        }
+
+      });
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+})
+
+
 //Invalid Route
 app.get('*', function(req, res) {
   res.sendFile('error.html', {root: __dirname});
