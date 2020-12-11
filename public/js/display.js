@@ -10,6 +10,7 @@ $('#prev-btn').click(function() {
 
 $('#next-btn').click(function() {
   var prev_page = parseInt($('#page_num').text()) + 1;
+  var keyword = $('#search-input').val();
   if (keyword.length > 0) {
     window.location.pathname = '/display/search/' + keyword + '/page/' + prev_page.toString();
   } else {
