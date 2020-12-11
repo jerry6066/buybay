@@ -42,7 +42,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text item-price" style="border-top-left-radius:20px; border-bottom-left-radius:20px; background-color:#a8d8ea">$</span>
           </div>
-          <input type="number" maxlength="20" placeholder="0.00" value="<%= item.price %>" class="form-control item-price item-price-input">
+          <input pattern="[0-9]" onKeyDown="if((this.value.length>=4 && event.keyCode>47 && event.keyCode < 58) || (event.keyCode === 190) || (event.keyCode === 187)|| (event.keyCode === 189))return false;" type="number" maxlength="20" placeholder="0" value="<%= item.price %>" class="form-control item-price item-price-input">
         </div>
       </div>
 
