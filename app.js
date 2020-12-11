@@ -304,13 +304,24 @@ app.get('/edit-item/:itemID', function(req, res) {
     if (isLoggedIn) {
       var itemID = req.params.itemID;
       url = process.env.ItemDetailURL + itemID;
-      request(url, function(error, response, body) {
-        body = JSON.parse(body);
+      const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        // body = JSON.parse(body);
         var status = body['status'];
         if (status) {
           var item = body['item'];
           if (item['user_id'] === userName) {
-            console.log(item);
+            // console.log(item);
             // res.cookie('itemID', itemID);
             res.render('editItem', {item: item});
           } else {
