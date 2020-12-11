@@ -214,8 +214,19 @@ app.get('/item/:itemID', function(req, res) {
     if (isLoggedIn) {
       var itemID = req.params.itemID;
       url = process.env.ItemDetailURL + itemID;
-      request(url, function(error, response, body) {
-        body = JSON.parse(body);
+      const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        //body = JSON.parse(body);
         var status = body['status'];
         if (status) {
           var item = body['item'];
@@ -242,7 +253,6 @@ app.post('/writeComment', function(req, res) {
   const content = req.body.comment;
   const itemID = req.cookies['itemID'];
 
-
   var options = {
     uri: process.env.WriteCommentURL,
     method: 'POST',
@@ -255,11 +265,10 @@ app.post('/writeComment', function(req, res) {
 
   request(options, function(error, response, body) {
     if (!error && response.statusCode == 200) {
-      res.redirect('/item/'+itemID);
+      res.redirect('/item/' + itemID);
     }
   });
 })
-
 
 app.get('/create', function(req, res) {
   if ('tokens' in req.cookies && 'username' in req.cookies) {
@@ -275,7 +284,6 @@ app.get('/create', function(req, res) {
     res.redirect('/');
   }
 });
-
 
 app.get('/edit-item/:itemID', function(req, res) {
   if ('tokens' in req.cookies && 'username' in req.cookies) {
@@ -298,7 +306,6 @@ app.get('/edit-item/:itemID', function(req, res) {
             res.send("No Auth.")
           }
 
-
         } else {
           // Todo: No Item Found
           // render to error page
@@ -312,7 +319,6 @@ app.get('/edit-item/:itemID', function(req, res) {
     res.redirect('/');
   }
 })
-
 
 //Invalid Route
 app.get('*', function(req, res) {
