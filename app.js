@@ -169,7 +169,7 @@ app.post('/log-in', function(req, res) {
 
 app.get('/display', function(req, res) {
   res.redirect('/display/page/1');
-})
+});
 
 app.get('/display/page/:page_num', function(req, res) {
   if ('tokens' in req.cookies && 'username' in req.cookies) {
@@ -201,7 +201,8 @@ app.get('/display/page/:page_num', function(req, res) {
             page: page,
             items: items,
             isFirstPage: isFirstPage,
-            isLastPage: isLastPage
+            isLastPage: isLastPage,
+            keywords: ""
           });
         });
       }
@@ -215,6 +216,56 @@ app.get('/display/page/:page_num', function(req, res) {
   }
 
 });
+
+
+app.get('/display/search/:keyword', function(req, res) {
+  keyword = req.params.keyword;
+  res.redirect('/display/search/'+keyword+'/page/1');
+});
+
+app.get('/display/search/:keyword/page/:page_num', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+
+    var isLoggedIn = checkLogIn(userName, tokens);
+
+    if (isLoggedIn) {
+      var page_num = req.params.page_num;
+      var keyword = req.params.keyword;
+      if (isNaN(page_num)) {
+        res.render('error',{
+          error_msg: "Invalid URL"
+        })
+      } else {
+        url = process.env.SearchItemURL + keyword + '/page/' + page_num;
+        request(url, function(error, response, body) {
+          console.log(body)
+          body = JSON.parse(body)
+          var page = body['page'];
+          var items = body['items'];
+          var isFirstPage = body['is_first_page'];
+          var isLastPage = body['is_last_page']
+          var keywords = body['key_words'];
+          // console.log(items)
+          res.render('display', {
+            page: page,
+            items: items,
+            isFirstPage: isFirstPage,
+            isLastPage: isLastPage,
+            keywords: keywords
+          });
+        });
+      }
+
+
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+})
 
 app.get('/logout', function(req, res) {
   res.clearCookie('username');
