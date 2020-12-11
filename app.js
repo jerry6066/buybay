@@ -168,6 +168,10 @@ app.post('/log-in', function(req, res) {
 });
 
 app.get('/display', function(req, res) {
+  res.redirect('/display/page/1');
+})
+
+app.get('/display/page/:page_num', function(req, res) {
   if ('tokens' in req.cookies && 'username' in req.cookies) {
     const tokens = req.cookies['tokens'];
     const userName = req.cookies['username'];
@@ -175,17 +179,43 @@ app.get('/display', function(req, res) {
     var isLoggedIn = checkLogIn(userName, tokens);
 
     if (isLoggedIn) {
-      url = process.env.SearchItemURL;
+      var page_num = req.params.page_num;
+      url = process.env.GetAllItemURL + page_num;
       request(url, function(error, response, body) {
         // console.error('error:', error);  Print the error if one occurred
         // console.log('statusCode:', response && response.statusCode);  Print the response status code if a response was received
         // console.log('body:', body);  Print the HTML for the Google homepage.
         body = JSON.parse(body)
+        // var body = {
+        //   'status': true,
+        //   'items': [
+        //     {
+        //       'item_id': '70f0f6d6-4e58-42f7-9bed-1ebef3b4dcd9',
+        //       'item_name': 'ROG laptop',
+        //       'user_id': 'bz2378@columbia.edu',
+        //       'user_name': 'zhuoxu',
+        //       'price': '1200',
+        //       'main_img_url': 'https://item-imgs.s3.amazonaws.com/laptop.jpg',
+        //       'num_visits': '1',
+        //       'timestamp': '2020-12-10',
+        //       'status': 'in stock'
+        //     }
+        //   ],
+        //   'page': '1',
+        //   'is_first_page': 'True',
+        //   'is_last_page': 'False'
+        // }
         var page = body['page'];
-        var items = body['Items'];
+        var items = body['items'];
+        var isFirstPage = body['is_first_page'];
+        var isLastPage = body['is_last_page']
+
+        // console.log(items)
         res.render('display', {
           page: page,
-          Items: items
+          items: items,
+          isFirstPage: isFirstPage,
+          isLastPage: isLastPage
         });
       });
 
