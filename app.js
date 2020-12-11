@@ -185,6 +185,7 @@ app.get('/display/page/:page_num', function(req, res) {
           error_msg: "Invalid URL"
         })
       } else {
+        page_num = parseInt(page_num).toString();
         url = process.env.GetAllItemURL + page_num;
         request(url, function(error, response, body) {
           // console.error('error:', error);  Print the error if one occurred
@@ -233,11 +234,12 @@ app.get('/display/search/:keyword/page/:page_num', function(req, res) {
     if (isLoggedIn) {
       var page_num = req.params.page_num;
       var keyword = req.params.keyword;
-      if (isNaN(page_num)) {
+      if ( isNaN(page_num)) {
         res.render('error',{
           error_msg: "Invalid URL"
         })
       } else {
+        page_num = parseInt(page_num).toString();
         url = process.env.SearchItemURL + keyword + '/page/' + page_num;
         request(url, function(error, response, body) {
           console.log(body)
