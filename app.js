@@ -241,8 +241,17 @@ app.get('/item/:itemID', function(req, res) {
         var status = body['status'];
         if (status) {
           var item = body['item'];
+          var isOwner;
+          if (item['user_id'] === userName) {
+            isOwner = true;
+          } else {
+            isOwner = false;
+          }
           res.cookie('itemID', itemID);
-          res.render('item', {item: item});
+          res.render('item', {
+            item: item,
+            isOwner: isOwner
+          });
         } else {
           // Todo: No Item Found
           // render to error page

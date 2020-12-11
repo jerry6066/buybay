@@ -39,4 +39,8 @@ $(".comment-btn").click(function(event) {
     event.preventDefault();
   }
 
+});
+
+$('#edit-btn').click(function(event) {
+  window.location.href = window.location.href.split('item')[0] + 'edit-item' + window.location.href.split('item')[1];
 })

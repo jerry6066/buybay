@@ -40,7 +40,12 @@
         <p class="status-and-visited-num"><i class="far fa-eye"></i> <%= item.num_visits %></p>
       </div>
       <div class="top-right-right">
-        <a class="btn btn-outline-primary want-btn" href="#" role="button">I WANT</a>
+        <% if (isOwner) { %>
+          <a class="btn btn-outline-primary top-btn" id="edit-btn" href="#" role="button">EDIT</a>
+        <% } else { %>
+          <a class="btn btn-outline-primary top-btn" id="want-btn" href="#" role="button">WANT</a>
+        <% } %>
+
         <p>$<%= item.price %></p>
       </div>
     </div>
