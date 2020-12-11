@@ -8,3 +8,26 @@
 body {
   background-color: #fcf8ec;
 }
+
+.error-block {
+  width: 800px;
+  position: relative;
+  left: 50%;
+  margin-left: -400px;
+  margin-top:100px;
+  text-align: center;
+}
+
+.error-block h1 {
+  font-size: 8rem;
+  margin: 30px;
+  font-family: 'Nerko One', cursive;
+  color: #f85f73;
+}
+
+.error-block h2 {
+  font-size: 4rem;
+  font-family: 'Nerko One', cursive;
+  color: #f85f73;
+  margin: 30px;
+}

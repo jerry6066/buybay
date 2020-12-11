@@ -180,25 +180,32 @@ app.get('/display/page/:page_num', function(req, res) {
 
     if (isLoggedIn) {
       var page_num = req.params.page_num;
-      url = process.env.GetAllItemURL + page_num;
-      request(url, function(error, response, body) {
-        // console.error('error:', error);  Print the error if one occurred
-        // console.log('statusCode:', response && response.statusCode);  Print the response status code if a response was received
-        // console.log('body:', body);  Print the HTML for the Google homepage.
-        body = JSON.parse(body)
-        var page = body['page'];
-        var items = body['items'];
-        var isFirstPage = body['is_first_page'];
-        var isLastPage = body['is_last_page']
+      if (isNaN(page_num)) {
+        res.render('error',{
+          error_msg: "Invalid URL"
+        })
+      } else {
+        url = process.env.GetAllItemURL + page_num;
+        request(url, function(error, response, body) {
+          // console.error('error:', error);  Print the error if one occurred
+          // console.log('statusCode:', response && response.statusCode);  Print the response status code if a response was received
+          // console.log('body:', body);  Print the HTML for the Google homepage.
+          body = JSON.parse(body)
+          var page = body['page'];
+          var items = body['items'];
+          var isFirstPage = body['is_first_page'];
+          var isLastPage = body['is_last_page']
 
-        // console.log(items)
-        res.render('display', {
-          page: page,
-          items: items,
-          isFirstPage: isFirstPage,
-          isLastPage: isLastPage
+          // console.log(items)
+          res.render('display', {
+            page: page,
+            items: items,
+            isFirstPage: isFirstPage,
+            isLastPage: isLastPage
+          });
         });
-      });
+      }
+
 
     } else {
       res.redirect('/');
@@ -253,8 +260,9 @@ app.get('/item/:itemID', function(req, res) {
             isOwner: isOwner
           });
         } else {
-          // Todo: No Item Found
-          // render to error page
+          res.render('error', {
+            error_msg: "Item Not Found."
+          });
         }
 
       });
@@ -334,12 +342,15 @@ app.get('/edit-item/:itemID', function(req, res) {
             // res.cookie('itemID', itemID);
             res.render('editItem', {item: item});
           } else {
-            res.send("No Auth.")
+            res.render('error', {
+              error_msg: "No Authorization."
+            });
           }
 
         } else {
-          // Todo: No Item Found
-          // render to error page
+          res.render('error', {
+            error_msg: "Item Not Found."
+          });
         }
 
       });
@@ -353,7 +364,9 @@ app.get('/edit-item/:itemID', function(req, res) {
 
 //Invalid Route
 app.get('*', function(req, res) {
-  res.sendFile('error.html', {root: __dirname});
+  res.render('error', {
+    error_msg: "404 Page Not Found."
+  });
 });
 
 const PORT = process.env.PORT || 3000;
