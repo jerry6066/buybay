@@ -35,6 +35,11 @@
   background-color: #a6e3e9;
 }
 
+.item-card:hover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
 .main-img {
   width:180px;
   height:180px;
