@@ -21,7 +21,9 @@
 
 <body>
   <div class="header">
-
+    <a class="btn btn-outline-primary" style="position: absolute; margin-top: 10px; left: 50px;" href="/" role="button"><i class="fas fa-home"></i> Home</a>
+    <a class="btn btn-outline-primary" style="position: absolute; right: 50px; margin-top: 10px;" href="/create" role="button"><i class="fas fa-plus-circle"></i> Create</a>
+    <a class="btn btn-outline-primary" style="position: absolute; right: 150px; margin-top: 10px;" href="/user" role="button"><i class="fas fa-user"></i> Profile</a>
   </div>
 
   <div class="item-top">
@@ -34,6 +36,7 @@
       </div>
       <div class="top-block">
         <p class="time-and-name"><%= item.user_name %> / <%= item.post_time %></p>
+        <p id="uid" style="display:none"><%= item.uid %></p>
       </div>
       <div class="top-right-left">
         <p class="status-and-visited-num"><%= item.status %></p>
@@ -41,9 +44,9 @@
       </div>
       <div class="top-right-right">
         <% if (isOwner) { %>
-          <a class="btn btn-outline-primary top-btn" id="edit-btn" href="#" role="button">EDIT</a>
+        <a class="btn btn-outline-primary top-btn" id="edit-btn" href="#" role="button"><i class="fas fa-edit"></i> EDIT</a>
         <% } else { %>
-          <a class="btn btn-outline-primary top-btn" id="want-btn" href="#" role="button">WANT</a>
+        <a class="btn btn-outline-primary top-btn" id="want-btn" href="#" role="button">WANT</a>
         <% } %>
 
         <p>$<%= item.price %></p>
@@ -56,7 +59,7 @@
   <div class="description-block">
     <h2>Description</h2>
     <% item.description.forEach(function(des) { %>
-      <p class="description-content"><%= des %></p>
+    <p class="description-content"><%= des %></p>
     <% }) %>
 
 
@@ -89,6 +92,11 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="/js/main.js"></script>
+  <script type="text/javascript">
+    $('.time-and-name').click(function() {
+      window.location.href = window.location.href.split('item')[0] + "user/" + $('#uid').text();
+    })
+  </script>
 </body>
 
 </html>

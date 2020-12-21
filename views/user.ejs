@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Display</title>
+  <title></title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
@@ -16,7 +16,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/item.css">
+  <link rel="stylesheet" href="/css/user.css">
   <link rel="stylesheet" href="/css/display.css">
 </head>
 
@@ -27,15 +27,21 @@
     <a class="btn btn-outline-primary" style="position: absolute; right: 150px; margin-top: 10px;" href="/user" role="button"><i class="fas fa-user"></i> Profile</a>
   </div>
 
-  <div class="search-block">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control search-input" id="search-input" value="<%= keywords %>" placeholder="Search">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary search-btn" id="search-btn" type="button">Search</button>
-      </div>
+  <div class="user_header">
+    <div class="user_label user_name">
+      <label>User Name: </label>
+      <label><%= user_name %></label>
+    </div>
+    <div class="user_label user_email">
+      <label>Email: </label>
+      <label><%= email %></label>
     </div>
   </div>
+
   <hr>
+  <div class="item_count">
+    <p>You have 10 items on sale.</p>
+  </div>
 
   <div class="display-cards">
     <% items.forEach(function(item) { %>
@@ -51,35 +57,17 @@
       <div class="item-price">
         <p>$<%= item.price %> </p>
       </div>
+      <div class="item-delete-block">
+        <button class="btn btn-outline-primary item-delete" type="button" id="delete-btn" name="button"><i id="delete-i" class="far fa-trash-alt"></i></button>
+      </div>
     </div>
     <% }) %>
 
   </div>
-  <div class="btn-block">
-    <% if (isFirstPage === 'True') { %>
-    <button id="prev-btn" class="btn btn-outline-primary page-btn" type="button" disabled><i class="fas fa-arrow-left"></i> Prev</button>
-    <% } else { %>
-    <button id="prev-btn" class="btn btn-outline-primary page-btn" type="button"><i class="fas fa-arrow-left"></i> Prev</button>
-    <% } %>
-
-    <p id="page_num"><%= page %></p>
-    <% if (isLastPage === 'True') { %>
-    <button id="next-btn" class="btn btn-outline-primary page-btn" type="button" disabled>Next <i class="fas fa-arrow-right"></i></button>
-    <% } else { %>
-    <button id="next-btn" class="btn btn-outline-primary page-btn" type="button">Next <i class="fas fa-arrow-right"></i></button>
-    <% } %>
-
-  </div>
-
-
-
-
-
-
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="/js/display.js"></script>
+  <script src="/js/user.js"></script>
 </body>
 
 </html>

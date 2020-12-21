@@ -21,7 +21,9 @@
 
 <body>
   <div class="header">
-
+    <a class="btn btn-outline-primary" style="position: absolute; margin-top: 10px; left: 50px;" href="/" role="button"><i class="fas fa-home"></i> Home</a>
+    <a class="btn btn-outline-primary" style="position: absolute; right: 50px; margin-top: 10px;" href="/create" role="button"><i class="fas fa-plus-circle"></i> Create</a>
+    <a class="btn btn-outline-primary" style="position: absolute; right: 150px; margin-top: 10px;" href="/user" role="button"><i class="fas fa-user"></i> Profile</a>
   </div>
 
   <div class="item-top">
@@ -42,7 +44,8 @@
           <div class="input-group-prepend">
             <span class="input-group-text item-price" style="border-top-left-radius:20px; border-bottom-left-radius:20px; background-color:#a8d8ea">$</span>
           </div>
-          <input pattern="[0-9]" onKeyDown="if((this.value.length>=4 && event.keyCode>47 && event.keyCode < 58) || (event.keyCode === 190) || (event.keyCode === 187)|| (event.keyCode === 189))return false;" type="number" maxlength="20" placeholder="0" value="<%= item.price %>" class="form-control item-price item-price-input">
+          <input pattern="[0-9]" onKeyDown="if((this.value.length>=4 && event.keyCode>47 && event.keyCode < 58) || (event.keyCode === 190) || (event.keyCode === 187)|| (event.keyCode === 189))return false;" type="number" maxlength="20"
+            placeholder="0" value="<%= item.price %>" class="form-control item-price item-price-input">
         </div>
       </div>
 
@@ -54,20 +57,20 @@
   <div class="description-block">
     <h2>Description</h2>
     <% item.description.forEach(function(des) { %>
-      <div class="paragraph">
-        <textarea oninput="auto_grow(this)" class="form-control description-text" placeholder="Describe your item. The max length for one paragraph is 200 characters. You can add another paragraph." maxlength="200"><%= des %></textarea>
-        <button class="btn btn-outline-danger delete-para-btn" type="button"><i class="fas fa-trash-alt"></i></button>
-      </div>
+    <div class="paragraph">
+      <textarea oninput="auto_grow(this)" class="form-control description-text" placeholder="Describe your item. The max length for one paragraph is 200 characters. You can add another paragraph." maxlength="200"><%= des %></textarea>
+      <button class="btn btn-outline-danger delete-para-btn" type="button"><i class="fas fa-trash-alt"></i></button>
+    </div>
     <% }) %>
 
     <button class="btn btn-outline-primary add-para-btn" type="button"><i class="fas fa-plus"></i> Add new paragraph</button>
     <div class="item-images">
       <% item.img_urls.forEach(function(url) { %>
-        <label class='img-container'>
-            <input accept='image/jpeg' type='file' class='image-input' style='display:none'>
-            <img class='item-image' src='<%= url %>'>
-            <button class='btn btn-outline-danger delete-img-btn' type='button'><i class='fas fa-trash-alt'></i></button>
-        </label>
+      <label class='img-container'>
+        <input accept='image/jpeg' type='file' class='image-input' style='display:none'>
+        <img class='item-image' src='<%= url %>'>
+        <button class='btn btn-outline-danger delete-img-btn' type='button'><i class='fas fa-trash-alt'></i></button>
+      </label>
       <% }) %>
       <button class="btn btn-outline-primary add-img-btn" type="button"><i class="fas fa-plus"></i> Add new image</button>
     </div>
@@ -83,6 +86,7 @@
   <script src="/js/create.js"></script>
   <script type="text/javascript">
     $('.delete-para-btn')[0].style.visibility = 'hidden';
+
     function encodeImageFileAsURL(element) {
       var file = element.files[0];
       var reader = new FileReader();

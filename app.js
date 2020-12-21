@@ -181,9 +181,7 @@ app.get('/display/page/:page_num', function(req, res) {
     if (isLoggedIn) {
       var page_num = req.params.page_num;
       if (isNaN(page_num)) {
-        res.render('error',{
-          error_msg: "Invalid URL"
-        })
+        res.render('error', {error_msg: "Invalid URL"})
       } else {
         page_num = parseInt(page_num).toString();
         url = process.env.GetAllItemURL + page_num;
@@ -208,7 +206,6 @@ app.get('/display/page/:page_num', function(req, res) {
         });
       }
 
-
     } else {
       res.redirect('/');
     }
@@ -218,10 +215,9 @@ app.get('/display/page/:page_num', function(req, res) {
 
 });
 
-
 app.get('/display/search/:keyword', function(req, res) {
   keyword = req.params.keyword;
-  res.redirect('/display/search/'+keyword+'/page/1');
+  res.redirect('/display/search/' + keyword + '/page/1');
 });
 
 app.get('/display/search/:keyword/page/:page_num', function(req, res) {
@@ -234,10 +230,8 @@ app.get('/display/search/:keyword/page/:page_num', function(req, res) {
     if (isLoggedIn) {
       var page_num = req.params.page_num;
       var keyword = req.params.keyword;
-      if ( isNaN(page_num)) {
-        res.render('error',{
-          error_msg: "Invalid URL"
-        })
+      if (isNaN(page_num)) {
+        res.render('error', {error_msg: "Invalid URL"})
       } else {
         page_num = parseInt(page_num).toString();
         url = process.env.SearchItemURL + keyword + '/page/' + page_num;
@@ -246,6 +240,7 @@ app.get('/display/search/:keyword/page/:page_num', function(req, res) {
           body = JSON.parse(body)
           var page = body['page'];
           var items = body['items'];
+          console.log(items)
           var isFirstPage = body['is_first_page'];
           var isLastPage = body['is_last_page']
           var keywords = body['key_words'];
@@ -259,7 +254,6 @@ app.get('/display/search/:keyword/page/:page_num', function(req, res) {
           });
         });
       }
-
 
     } else {
       res.redirect('/');
@@ -313,9 +307,7 @@ app.get('/item/:itemID', function(req, res) {
             isOwner: isOwner
           });
         } else {
-          res.render('error', {
-            error_msg: "Item Not Found."
-          });
+          res.render('error', {error_msg: "Item Not Found."});
         }
 
       });
@@ -395,15 +387,11 @@ app.get('/edit-item/:itemID', function(req, res) {
             // res.cookie('itemID', itemID);
             res.render('editItem', {item: item});
           } else {
-            res.render('error', {
-              error_msg: "No Authorization."
-            });
+            res.render('error', {error_msg: "No Authorization."});
           }
 
         } else {
-          res.render('error', {
-            error_msg: "Item Not Found."
-          });
+          res.render('error', {error_msg: "Item Not Found."});
         }
 
       });
@@ -415,11 +403,120 @@ app.get('/edit-item/:itemID', function(req, res) {
   }
 })
 
+app.get('/user', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      url = process.env.GetUserProfile + "0"
+      const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        var items = body['item'];
+        var user_name = body['user_name'];
+        var email = body['user_id'];
+        res.render('user', {
+          items: items,
+          user_name: user_name,
+          email: email
+        });
+      });
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+})
+
+app.get('/user/:user_id', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      uid = req.params.user_id;
+      url = process.env.GetUserProfile + uid;
+      const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        var items = body['item'];
+        var user_name = body['user_name'];
+        var email = body['user_id'];
+        res.render('user', {
+          items: items,
+          user_name: user_name,
+          email: email
+        });
+      });
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+})
+
+app.get('/delete-item/:item_id', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      item_id = req.params.item_id;
+      url = process.env.ItemDetailURL + item_id;
+      const options = {
+        url: url,
+        method: 'DELETE',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        var status = body['status']
+        if (status === true) {
+          res.redirect('/user')
+        } else {
+          res.render('error', {
+            error_msg: "Delete Error."
+          });
+        }
+      });
+
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+});
+
 //Invalid Route
 app.get('*', function(req, res) {
-  res.render('error', {
-    error_msg: "404 Page Not Found."
-  });
+  res.render('error', {error_msg: "404 Page Not Found."});
 });
 
 const PORT = process.env.PORT || 3000;

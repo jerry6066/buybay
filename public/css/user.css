@@ -1,0 +1,40 @@
+.user_header {
+  border-radius: 20px;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  width: 800px;
+  position: relative;
+  left: 50%;
+  height: 300px;
+  margin-left: -400px;
+  background-color: #a6e3e9;
+}
+
+.user_label {
+  width: 600px;
+  margin-left: -300px;
+  left: 50%;
+  position: relative;
+  padding-top: 60px;
+  text-align: center;
+  font-family: 'Andika New Basic', sans-serif;
+}
+
+.user_name {
+  font-size: 3rem;
+}
+
+.user_email {
+  font-size: 2rem;
+}
+
+.item_count {
+  width: 300px;
+}
+
+.item-delete-block {
+  width:100%;
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid;
+}
