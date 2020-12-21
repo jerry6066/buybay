@@ -425,10 +425,12 @@ app.get('/user', function(req, res) {
         var items = body['item'];
         var user_name = body['user_name'];
         var email = body['user_id'];
+        var num_items = body['num_items']
         res.render('user', {
           items: items,
           user_name: user_name,
-          email: email
+          email: email,
+          num_items: num_items
         });
       });
     } else {
@@ -462,10 +464,12 @@ app.get('/user/:user_id', function(req, res) {
         var items = body['item'];
         var user_name = body['user_name'];
         var email = body['user_id'];
+        var num_items = body['num_items']
         res.render('user', {
           items: items,
           user_name: user_name,
-          email: email
+          email: email,
+          num_items: num_items
         });
       });
     } else {

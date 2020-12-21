@@ -29,7 +29,13 @@
 }
 
 .item_count {
-  width: 300px;
+  width: 500px;
+  text-align: center;
+  position: relative;
+  left: 50%;
+  margin-left: -250px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem;
 }
 
 .item-delete-block {
