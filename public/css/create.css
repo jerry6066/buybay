@@ -131,12 +131,13 @@ hr {
   border-radius: 20px;
 }
 
-.save-btn, .add-para-btn, .add-img-btn{
+.save-btn, .add-para-btn, .add-img-btn, .cancel-btn{
   margin-top: 20px;
   width: 200px;
   position: relative;
   left: 50%;
   margin-left: -100px;
+  display: block;
 }
 
 .add-img-btn {

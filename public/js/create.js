@@ -130,8 +130,12 @@ $(".save-btn").click(function() {
     data: JSON.stringify(data),
     dataType: "json"
   }).done(function(response) {
-    new_url = root_url + 'item/' + response['item_id']
-    window.location.href = new_url;
+    if(response['status'] === false) {
+      alert(response['message'])
+    } else {
+      new_url = root_url + 'item/' + response['item_id']
+      window.location.href = new_url;
+    }
   });
 
 })
