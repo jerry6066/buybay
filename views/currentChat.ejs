@@ -16,8 +16,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
 
   <link rel="stylesheet" href="/css/styles.css">
-  <link rel="stylesheet" href="/css/item.css">
-  <link rel="stylesheet" href="/css/display.css">
+  <link rel="stylesheet" href="/css/currentChat.css">
 </head>
 
 <body>
@@ -29,63 +28,51 @@
     <a class="btn btn-outline-primary" style="position: absolute; right: 330px; margin-top: 10px;" href="/chats" role="button"><i class="fas fa-comments"></i> Chats</a>
   </div>
 
-  <div class="search-block">
-    <div class="input-group mb-3">
-      <input type="text" class="form-control search-input" id="search-input" value="<%= keywords %>" placeholder="Search">
-      <div class="input-group-append">
-        <button class="btn btn-outline-secondary search-btn" id="search-btn" type="button">Search</button>
-      </div>
+  <h1 class="chat-title">Jerry</h1>
+  <div class="display-chat-block">
+    <div class="chat-block" id="chat-0" style="display:none">
+      <p class="id" style="display: none;">0</p>
+      <p class="chat-time">placeholder</p>
+      <p class="chat-username">placeholder</p>
+      <p class="chat-content">placeholder</p>
     </div>
-  </div>
-  <hr>
-
-  <div class="display-cards">
-    <% items.forEach(function(item) { %>
-    <div class="item-card">
-      <label style="display:none"><%= item.item_id %></label>
-      <img src="<%= item.main_img_url %>" class="main-img" alt="">
-      <p class="item-title"><%= item.item_name %></p>
-      <p class="name-and-time"><%= item.user_name %> / <%= item.timestamp %></p>
-      <div class="item-status">
-        <p><%= item.status %></p>
-        <p><i class="far fa-eye"></i> <%= item.num_visits %></p>
+    <% chats.forEach(function(chat) { %>
+      <div class="chat-block" id="chat-<%= chat.id %>">
+        <p class="id" style="display: none;"><%= chat.id %></p>
+        <p class="chat-time"><%= chat.time %></p>
+        <p class="chat-username"><%= chat.sender %></p>
+        <p class="chat-content"><%= chat.content %></p>
       </div>
-      <div class="item-price">
-        <p>$<%= item.price %> </p>
-      </div>
-    </div>
     <% }) %>
 
+    <%# <div class="chat-block" id="chat-2">
+      <p class="id" style="display: none;">no1</p>
+      <p class="chat-time">2020-12-12 10:10</p>
+      <p class="chat-username" style="text-align: right;">You</p>
+      <p class="chat-content" style="background-color: #bce6eb;">Hello Hello Hello</p>
+    </div> %>
   </div>
-  <div class="btn-block">
-    <% if (isFirstPage === 'True') { %>
-    <button id="prev-btn" class="btn btn-outline-primary page-btn" type="button" disabled><i class="fas fa-arrow-left"></i> Prev</button>
-    <% } else { %>
-    <button id="prev-btn" class="btn btn-outline-primary page-btn" type="button"><i class="fas fa-arrow-left"></i> Prev</button>
-    <% } %>
-
-    <p id="page_num"><%= page %></p>
-    <% if (isLastPage === 'True') { %>
-    <button id="next-btn" class="btn btn-outline-primary page-btn" type="button" disabled>Next <i class="fas fa-arrow-right"></i></button>
-    <% } else { %>
-    <button id="next-btn" class="btn btn-outline-primary page-btn" type="button">Next <i class="fas fa-arrow-right"></i></button>
-    <% } %>
-
+  <div class="chat-input-block">
+    <textarea oninput="auto_grow(this)" class="form-control input-text" placeholder="Type something here." maxlength="200"></textarea>
+    <a class="btn btn-outline-primary" id="send-btn" role="button"><i class="far fa-paper-plane"></i> Send</a>
   </div>
-
-
-
 
   <div class="" style="height: 80px; width: 100%">
 
   </div>
   <footer>
-      <p>Copyright ⓒ 2020</p>
+    <p>Copyright ⓒ 2020</p>
   </footer>
 
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="/js/display.js"></script>
+  <script src="/js/currentChat.js"></script>
+  <script type="text/javascript">
+    function auto_grow(element) {
+      element.style.height = "60px";
+      element.style.height = (element.scrollHeight) + "px";
+    }
+  </script>
 </body>
 
 </html>

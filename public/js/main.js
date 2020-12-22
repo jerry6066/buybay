@@ -47,8 +47,6 @@ $("#CodeButton").click(function(event) {
   }
 });
 
-
-
 $(".comment-btn").click(function(event) {
   var content = $('.comment-text').val()
   if (content.length === 0) {
@@ -60,4 +58,44 @@ $(".comment-btn").click(function(event) {
 
 $('#edit-btn').click(function(event) {
   window.location.href = window.location.href.split('item')[0] + 'edit-item' + window.location.href.split('item')[1];
+})
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+$('#want-btn').click(function(event) {
+  event.preventDefault();
+  var user_email = getCookie('username');
+  var to_uid = $('#uid').text();
+  data = {
+    "user_id": user_email,
+    "to_uid": to_uid
+  }
+  url = "https://wiqf70zw81.execute-api.us-east-1.amazonaws.com/test/createchat"
+  $.ajax({
+    url: url,
+    crossDomain: true,
+    type: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify(data),
+    dataType: "json"
+  }).done(function(response) {
+    chat_id = response['chat_id']
+    window.location.pathname = '/chats/' + chat_id + '/0';
+  });
 })

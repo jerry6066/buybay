@@ -563,6 +563,88 @@ app.get('/delete-item/:item_id', function(req, res) {
   }
 });
 
+app.get('/chats', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+      url = process.env.GetAllChats;
+      const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        var status = body['status']
+        console.log(body)
+        if (status === true) {
+          chats = body['chats']
+          res.render('chats', {
+            chats: chats
+          });
+        } else {
+          res.render('error', {
+            error_msg: "Error."
+          });
+        }
+      });
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+})
+
+app.get('/chats/:chat_id', function(req, res) {
+  if ('tokens' in req.cookies && 'username' in req.cookies) {
+    const tokens = req.cookies['tokens'];
+    const userName = req.cookies['username'];
+    var isLoggedIn = checkLogIn(userName, tokens);
+    if (isLoggedIn) {
+
+      chat_id = req.params.chat_id;
+      url = process.env.GetChat + chat_id + '/0';
+      const options = {
+        url: url,
+        method: 'GET',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName
+        }
+      };
+      request(options, function(error, response, body) {
+        var status = body['status']
+        // console.log(body)
+        if (status === true) {
+          chats = body['chats']
+          res.render('currentChat', {
+            chats: chats
+          });
+        } else {
+          res.render('error', {
+            error_msg: "Error."
+          });
+        }
+      });
+    } else {
+      res.redirect('/');
+    }
+  } else {
+    res.redirect('/');
+  }
+})
+
 //Invalid Route
 app.get('*', function(req, res) {
   res.render('error', {error_msg: "404 Page Not Found."});
