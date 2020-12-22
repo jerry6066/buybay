@@ -120,6 +120,8 @@ $(".save-btn").click(function() {
 
   // console.log(JSON.stringify(data));
   console.log(url)
+  $('.save-btn').prop('disabled', true);
+  $(".save-btn").html("Submitting");
   $.ajax({
     url: url,
     crossDomain: true,
@@ -130,6 +132,8 @@ $(".save-btn").click(function() {
     data: JSON.stringify(data),
     dataType: "json"
   }).done(function(response) {
+    $('.save-btn').prop('disabled', false);
+    $(".save-btn").html("<i class='fas fa-cloud-upload-alt'></i> Submit");
     if(response['status'] === false) {
       alert(response['message'])
     } else {
