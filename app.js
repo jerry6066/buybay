@@ -469,7 +469,8 @@ app.get('/user', function(req, res) {
           items: items,
           user_name: user_name,
           email: email,
-          num_items: num_items
+          num_items: num_items,
+          isOwner: true
         });
       });
     } else {
@@ -504,11 +505,16 @@ app.get('/user/:user_id', function(req, res) {
         var user_name = body['user_name'];
         var email = body['user_id'];
         var num_items = body['num_items']
+        var isOwner = false;
+        if(email === userName) {
+          isOwner = true;
+        }
         res.render('user', {
           items: items,
           user_name: user_name,
           email: email,
-          num_items: num_items
+          num_items: num_items,
+          isOwner: isOwner
         });
       });
     } else {
