@@ -96,6 +96,6 @@ $('#want-btn').click(function(event) {
     dataType: "json"
   }).done(function(response) {
     chat_id = response['chat_id']
-    window.location.pathname = '/chats/' + chat_id + '/0';
+    window.location.pathname = '/chats/' + chat_id;
   });
 })
