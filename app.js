@@ -85,6 +85,7 @@ app.get('/sign-up', function(req, res) {
 app.post('/sign-up', function(req, res) {
   var userEmail = req.body.UserEmail;
   var userPassword = req.body.UserPassword;
+  var userName = req.body.UserName;
   var attributeList = [];
   var dataEmail = {
     Name: 'email',
@@ -95,11 +96,16 @@ app.post('/sign-up', function(req, res) {
 
   userPool.signUp(userEmail, userPassword, attributeList, null, function(err, result) {
     if (err) {
-      console.log(err.message || JSON.stringify(err));
-      return;
+      console.log("error")
+      var errorMsg = err.message || JSON.stringify(err);
+      res.render('error', {
+        error_msg: errorMsg
+      })
     }
+
     var cognitoUser = result.user;
     res.cookie('registeredUser', cognitoUser.getUsername());
+    res.cookie('registeredUserName', userName)
     res.redirect('/confirm');
   });
 
@@ -107,7 +113,12 @@ app.post('/sign-up', function(req, res) {
 
 app.get('/confirm', function(req, res) {
   if ('registeredUser' in req.cookies) {
-    res.sendFile('confirm.html', {root: __dirname});
+    var userEmail = req.cookies['registeredUser']
+    var userName = req.cookies['registeredUserName']
+    res.render('confirm', {
+      email: userEmail,
+      username: userName
+    });
   } else {
     res.redirect('/sign-up');
   }
@@ -116,7 +127,8 @@ app.get('/confirm', function(req, res) {
 app.post('/confirm', function(req, res) {
   if ('registeredUser' in req.cookies) {
     code = req.body.Code;
-    userName = req.cookies['registeredUser']
+    // userName = req.cookies['registeredUser']
+    userName = req.body.UserEmail;
     var userData = {
       Username: userName,
       Pool: userPool
@@ -125,12 +137,36 @@ app.post('/confirm', function(req, res) {
     var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
     cognitoUser.confirmRegistration(code, true, function(err, result) {
       if (err) {
-        console.log(err.message || JSON.stringify(err));
-        res.redirect('/confirm')
+        var errorMsg = err.message || JSON.stringify(err);
+        res.render('error', {
+          error_msg: errorMsg
+        })
+        // res.redirect('/confirm')
       }
       res.clearCookie('registeredUser');
-      console.log('call result: ' + result);
-      res.redirect('/log-in')
+      res.clearCookie('registeredUserName')
+      // Todo : send info to lambda
+      url = process.env.CreateUserURL;
+      const options = {
+        url: url,
+        method: 'POST',
+        json: true,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'user_id': userName,
+          'user_name': req.body.UserName
+        }
+      };
+      request(options, function(error, response, body) {
+        // body = JSON.parse(body);
+        var status = body['status'];
+        res.redirect('/log-in')
+
+      });
+      // console.log('call result: ' + result);
+
     });
   } else {
     res.redirect('/sign-up');
@@ -162,7 +198,10 @@ app.post('/log-in', function(req, res) {
       res.redirect('/display')
     },
     onFailure: function(err) {
-      res.redirect('/log-in');
+      var errorMsg = err.message;
+      res.render('error', {
+        error_msg: errorMsg
+      })
     }
   });
 });

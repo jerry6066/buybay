@@ -46,3 +46,11 @@ hr {
   background-color: #08d9d6;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
+
+.Form-div {
+  width: 300px;
+  left: 50%;
+  margin-left: -150px;
+  position: relative;
+  margin-top: 150px;
+}
