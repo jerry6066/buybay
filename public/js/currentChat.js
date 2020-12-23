@@ -35,12 +35,11 @@ setInterval(function() {
     chats = response['chats']
     if (chats.length > 0) {
       chats.forEach(function (chat) {
-        if (chat.to_user != $("h1").text()) {
+        if (chat.sender != $("h1").text()) {
           $('#chat-'+(num-1).toString()).after("<div class='chat-block' id='chat-" + num.toString() + "'>" + "<p class='id' style='display: none;'>"+chat.id +"</p>" + "<p class='chat-time'>"+chat.time+"</p>" + "<p class='chat-username' style='text-align: right;'>"+chat.sender+"</p>" + "<p class='chat-content' style='background-color: #bce6eb; text-align: right;'>"+chat.content+"</p>" + "</div>")
         } else {
           $('#chat-'+(num-1).toString()).after("<div class='chat-block' id='chat-" + num.toString() + "'>" + "<p class='id' style='display: none;'>"+chat.id +"</p>" + "<p class='chat-time'>"+chat.time+"</p>" + "<p class='chat-username'>"+chat.sender+"</p>" + "<p class='chat-content'>"+chat.content+"</p>" + "</div>")
         }
-
         num = num + 1
       })
       $(".display-chat-block").scrollTop($(".display-chat-block")[0].scrollHeight);
