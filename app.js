@@ -625,11 +625,12 @@ app.get('/chats/:chat_id', function(req, res) {
       };
       request(options, function(error, response, body) {
         var status = body['status']
-        // console.log(body)
         if (status === true) {
           chats = body['chats']
+          to_user = body['to_user']
           res.render('currentChat', {
-            chats: chats
+            chats: chats,
+            to_user: to_user
           });
         } else {
           res.render('error', {

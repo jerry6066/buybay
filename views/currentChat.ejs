@@ -28,7 +28,7 @@
     <a class="btn btn-outline-primary" style="position: absolute; right: 330px; margin-top: 10px;" href="/chats" role="button"><i class="fas fa-comments"></i> Chats</a>
   </div>
 
-  <h1 class="chat-title">Jerry</h1>
+  <h1 class="chat-title" id="chat-title"><%= to_user %></h1>
   <div class="display-chat-block">
     <div class="chat-block" id="chat-0" style="display:none">
       <p class="id" style="display: none;">0</p>
@@ -40,8 +40,14 @@
       <div class="chat-block" id="chat-<%= chat.id %>">
         <p class="id" style="display: none;"><%= chat.id %></p>
         <p class="chat-time"><%= chat.time %></p>
-        <p class="chat-username"><%= chat.sender %></p>
-        <p class="chat-content"><%= chat.content %></p>
+        <% if (chat.sender != to_user) { %>
+          <p class="chat-username" style="text-align: right;"><%= chat.sender %></p>
+          <p class="chat-content" style="background-color: #bce6eb; text-align: right;"><%= chat.content %></p>
+        <% } else { %>
+          <p class="chat-username"><%= chat.sender %></p>
+          <p class="chat-content"><%= chat.content %></p>
+        <% } %>
+
       </div>
     <% }) %>
 
