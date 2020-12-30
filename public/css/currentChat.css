@@ -16,10 +16,6 @@
   overflow-y: auto;
 }
 
-.chat-block:last-child {
-  margin-bottom: 20px;
-}
-
 .chat-block {
   width: 700px;
   position: relative;
